@@ -65,3 +65,13 @@ def BFS(g,start): # 给定一幅图g和一个起始节点start,在广度优先�
         #直至CurrentVert的结点被遍历完毕，代表其邻居结点已被完全搜索，将其颜色设为黑色
         CurrentVert.setColor('black')
 
+def Solution(V):  # 在对图以'FOOL'进行BFS后，建立了BFS Search Tree（以.Pred()为线索)，从'SAGE'开始，遍历它的Pred并直至'FOOL'（Pred为None）
+    X=V
+    while(X.getPred()):
+        print(X.getId())
+        X=X.getPred()
+    print(V.getId()) # 在检测到'FOOL'.pred=None后循环退出，需增加一次打印'FOOL'
+
+wordgraph=BulidGraph('fourletterwords.txt')
+BFS(wordgraph,wordgraph.getVertex('FOOL'))
+Solution(wordgraph.getVertex('SAGE'))

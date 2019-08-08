@@ -43,4 +43,25 @@ def BulidGraph(wordFile):
     return g
 
 
+"""
+BFS-广度优先搜索
+"""
+def BFS(g,start): # 给定一幅图g和一个起始节点start,在广度优先搜索过程中遍历图中所有结点，并标记它们的距离，前驱和颜色
+    start.setDistance(0)#设置start结点的距离为0
+    start.setPred(None)#设置start结点的前驱为None
+    VertQueue=Queue()#创建一个队列用于按保存待搜索结点
+    VertQueue.enqueue(start)#将start结点入队
+    #循环遍历所有入队的结点
+    while (VertQueue.size()>0):
+        CurrentVert=VertQueue.dequeue()
+        # 遍历当前搜索结点的所有邻居
+        for nbr in CurrentVert.getConnections():  #.getConnections方法返回CurrentVert的所有邻居结点
+            #若该邻居的颜色为白色，则其从未被搜索,对其执行入队，染色，设定距离和前驱的操作
+            if (nbr.getColor()=='white'):
+                nbr.setColor('grey')
+                nbr.setDistance(CurrentVert.getDistance()+1)
+                nbr.setPred(CurrentVert)
+                VertQueue.enqueue(nbr)
+        #直至CurrentVert的结点被遍历完毕，代表其邻居结点已被完全搜索，将其颜色设为黑色
+        CurrentVert.setColor('black')
 

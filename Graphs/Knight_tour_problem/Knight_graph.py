@@ -19,7 +19,7 @@ def knightGraph(bdSize):
     for row in range(bdSize):
         for col in range(bdSize):
             nodeId = posToNodeId(row, col, bdSize)  # 获取当前的NodeId
-            newPositions = genLegalMoves(row, col, bdSize)  # 返回可移动位置的列表
+            newPositions = genLegalMoves(row,col,bdSize)  # 返回可移动位置的列表
             for e in newPositions:
                 nid = posToNodeId(e[0], e[1], bdSize)  # 产生可移动结点的NodeId
                 ktGraph.addEdge(nodeId, nid)
@@ -52,5 +52,35 @@ def legalCoord(x, bdSize):  # 理论上若棋盘无限大，每个Knights结点�
 
 """
 深度优先搜索
+DFS
 """
+
+
+def DFS1(n, path, cv, limit):
+    cv.setColor('gray')
+    path.append(cv)
+    if n < limit:
+        nbrlist = list(cv.getConnections())  # 获取该节点的邻居
+        i = 0  # 按顺序访问nbrlist[]
+        done = False
+        while i < len(nbrlist) and not done:
+            if (nbrlist[i].getColor() == 'white'):
+                done = DFS1(n + 1, path, nbrlist[i], limit)
+            i = i + 1
+        if not done:
+            path.pop()
+            cv.setColor('white')
+
+
+    else:
+        done = True
+
+    return done
+
+kg=knightGraph(8)
+thepath=[]
+start=kg.getVertex(0)
+if(DFS1(0,thepath,start,63)):
+    for v in thepath:
+        print(v.id)
 
